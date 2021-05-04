@@ -1,0 +1,12 @@
+
+export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
+export OS_PROJECT_NAME="unimelb-comp90024-2021-grp-51"
+export OS_USER_DOMAIN_NAME="Default"
+export OS_PROJECT_DOMAIN_ID="default"
+export OS_REGION_NAME="Melbourne"
+export OS_INTERFACE=public
+export OS_IDENTITY_API_VERSION=3
+export OS_USERNAME="student@student.unimelb.edu.au"
+export OS_PASSWORD=
+export OS_PROJECT_ID=pid
+

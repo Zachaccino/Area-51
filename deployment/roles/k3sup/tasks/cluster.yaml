@@ -1,0 +1,18 @@
+---
+- name: Register init node address
+  set_fact:
+    init_ip: '{{ init_ip|default([]) + [ hostvars[item].openstack.accessIPv4 ] }}'
+  with_items: "{{ groups['all'] }}"
+  when: hostvars[item].openstack.name.startswith('init')
+
+- name: Init cluster
+  ansible.builtin.shell:
+    cmd: 'k3sup install --ssh-key ~/.ssh/area51 --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --cluster --k3s-version v1.21.0+k3s1'
+  with_items: "{{ groups['all'] }}"
+  when: hostvars[item].openstack.name.startswith('init')
+
+- name: Join nodes to cluster
+  ansible.builtin.shell:
+    cmd: "k3sup join --ssh-key ~/.ssh/area51 --server --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --server-user ubuntu --server-ip {{ init_ip[0] }} --k3s-version v1.21.0+k3s1"
+  with_items: "{{ groups['all'] }}"
+  when: hostvars[item].openstack.name.startswith('master')

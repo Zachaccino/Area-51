@@ -1,0 +1,57 @@
+--- 
+# Create instances on NeCTAR
+- name: Create nodes
+  os_server:
+    name: '{{ item.name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{master_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ item.security_groups }}'
+    volumes: '{{ item.volumes }}'
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  loop: '{{ masters }}'
+  register: k3s_master
+
+- name: Create init node
+  os_server:
+    name: 'init'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ init_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ init.security_groups }}'
+    volumes: '{{ init.volumes }}'
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  register: k3s_init
+
+- debug:
+    msg: "Instance {{ item.openstack.name }} has been created. IP address is {{ item.openstack.public_v4 }}"
+  loop: '{{ k3s_master.results }}'
+  when: item.openstack is defined
+
+- debug:
+    msg: "Instance {{ k3s_init.openstack.name }} has been created. IP address is {{ k3s_init.openstack.public_v4 }}"
+
+- name: Wait for connection to master
+  wait_for:
+    host: "{{ item.openstack.public_v4 }}"
+    port: 22
+    timeout: 120
+    search_regex: OpenSSH
+  loop: '{{ k3s_master.results }}'
+  when: item.openstack is defined
+
+- name: Wait for connection to init
+  wait_for:
+    host: "{{ k3s_init.openstack.public_v4 }}"
+    port: 22
+    timeout: 120
+    search_regex: OpenSSH
+

@@ -1,0 +1,5 @@
+---
+- name: Install k3s and join master node
+  shell: 'curl -sfL http://get.k3s.io | K3S_URL=https://{{ hostvars[item]["ansible_default_ipv4"]["address"] }}:6443 K3S_TOKEN={{ hostvars[item]["master_token"] }}  sh -s - --docker'
+  loop: "{{ groups['all'] }}"
+  when: hostvars[item]["ansible_hostname"].find('master') != -1

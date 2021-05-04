@@ -1,0 +1,6 @@
+---
+- name: "Ansible | List all known variables and facts"
+  debug:
+    var: hostvars[item]
+  loop: "{{ groups['all'] }}"
+  when: (item != inventory_hostname) and (hostvars[item].openstack.name.find('init') != -1)

@@ -1,0 +1,9 @@
+---
+- name: Configure internet proxy
+  import_tasks: proxy.yaml
+
+- name: Configure hosts
+  import_tasks: hosts.yaml
+
+- name: Disable swap
+  import_tasks: disable-swap.yaml
