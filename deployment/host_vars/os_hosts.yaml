@@ -1,0 +1,46 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+
+# Volume
+volumes:
+  - vol_name: couchdb-1
+    vol_size: 50
+  - vol_name: couchdb-2
+    vol_size: 50
+  - vol_name: couchdb-3
+    vol_size: 50
+
+security_groups:
+  - name: k3s api
+    description: "Security group for k3s api"
+    protocol: tcp
+    port_range_min: 6443
+    port_range_max: 6443
+    remote_ip_prefix: 0.0.0.0/0
+  - name: embedded etcd
+    description: "Security group for the HA embedded etcd service"
+    protocol: tcp
+    port_range_min: 2379
+    port_range_max: 2380
+    remote_ip_prefix: 0.0.0.0/0
+
+# Instance
+masters:
+  - name: master-1
+    volumes: ['couchdb-1']
+    security_groups: ['ssh','http','k3s api','embedded etcd']
+  - name: master-2
+    volumes: ['couchdb-2']
+    security_groups: ['ssh','http','k3s api','embedded etcd']
+  - name: master-3
+    volumes: ['couchdb-3']
+    security_groups: ['ssh','http','k3s api','embedded etcd']
+init:
+  volumes: []
+  security_groups: ['ssh','http','k3s api','embedded etcd']
+
+instance_image: NeCTAR Ubuntu 20.04 LTS (Focal) amd64
+instance_key_name: Area51
+
+init_flavor: uom.mse.1c4g
+master_flavor: uom.mse.2c9g

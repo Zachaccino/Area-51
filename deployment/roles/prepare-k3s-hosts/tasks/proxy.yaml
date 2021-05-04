@@ -1,0 +1,4 @@
+---
+- copy:
+    src: files/environment
+    dest: /etc/environment

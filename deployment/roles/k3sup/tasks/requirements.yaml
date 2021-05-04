@@ -1,0 +1,12 @@
+---
+- name: "Get remote k3sup install script"
+  become: yes
+  ansible.builtin.get_url:
+    url: https://get.k3sup.dev
+    dest: /tmp/rustup.sh
+
+- name: "Install k3sup"
+  become: yes
+  ansible.builtin.shell:
+    cmd: sh /tmp/rustup.sh
+

@@ -1,0 +1,11 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - role: prepare-k3s-hosts
+
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - role: k3sup

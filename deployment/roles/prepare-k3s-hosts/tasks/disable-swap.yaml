@@ -1,0 +1,10 @@
+---
+- name: Disable swap on boot
+  replace:
+    dest: /etc/fstab
+    regexp: '(?i)^(/swapfile.*)'
+    replace: '# \1'
+
+- name: Disable swap in current session
+  shell: swapoff -a
+

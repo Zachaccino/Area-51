@@ -1,0 +1,4 @@
+- hosts: localhost
+  remote_user: ubuntu
+  roles:
+    - role: list-hosts
