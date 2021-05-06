@@ -8,7 +8,6 @@ You'll need:
  3. [k3sup](https://github.com/alexellis/k3sup#download-k3sup-tldr)
 
 #### Initial deployment
-Before executing these steps, ensure you have an SSH keypair named `Area 51` on openstack and you have the private key at `~/.ssh/area51`. You will also need to fill in your openstack credentials in `openrc.example`.
- 1. `mv openrc.example .openrc`
- 2. `sudo chmod +x deploy/deploy-k3s-cluster.sh`
- 3. `./deploy/deploy-k3s-cluster.sh`
+Before executing these steps, ensure you have an SSH keypair named `Area 51` on openstack and you have the private key at `~/.ssh/area51`. You will also need to `cp openrc.example .openrc` fill in your openstack credentials in `.openrc`. Then:
+ 1. `sudo chmod +x deploy/deploy-k3s-cluster.sh`
+ 2. `./deploy/deploy-k3s-cluster.sh`
