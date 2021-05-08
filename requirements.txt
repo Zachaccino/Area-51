@@ -1,0 +1,3 @@
+Flask==1.1.2
+Tweepy==3.10.0
+Cloudant==2.14.0
