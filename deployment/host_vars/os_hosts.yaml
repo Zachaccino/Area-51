@@ -23,21 +23,40 @@ security_groups:
     port_range_min: 2379
     port_range_max: 2380
     remote_ip_prefix: 0.0.0.0/0
+  - name: CouchDB HTTP API
+    description: "Ports for the CouchDB HTTP API external requests"
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_ip_prefix: 0.0.0.0/0
+  - name: CouchDB Erlang port mapper daemon
+    description: "Ports for the CouchDB port mapper"
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_ip_prefix: 172.0.0.0/8
+  - name: CouchDB node communication
+    description: "Ports for the CouchDB node communication"
+    protocol: tcp
+    port_range_max: 9100
+    port_range_min: 9100
+    remote_ip_prefix: 172.0.0.0/8
+
 
 # Instance
 masters:
   - name: master-1
     volumes: ['couchdb-1']
-    security_groups: ['ssh','http','k3s api','embedded etcd']
+    security_groups: ['ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication']
   - name: master-2
     volumes: ['couchdb-2']
-    security_groups: ['ssh','http','k3s api','embedded etcd']
+    security_groups: ['ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication']
   - name: master-3
     volumes: ['couchdb-3']
-    security_groups: ['ssh','http','k3s api','embedded etcd']
+    security_groups: ['ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication']
 init:
   volumes: []
-  security_groups: ['ssh','http','k3s api','embedded etcd']
+  security_groups: ['ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication']
 
 instance_image: NeCTAR Ubuntu 20.04 LTS (Focal) amd64
 instance_key_name: Area51

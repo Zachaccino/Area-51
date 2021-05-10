@@ -1,0 +1,8 @@
+---
+- name: Tag the init node
+  shell: "kubectl --kubeconfig='./kubeconfig' label nodes init couchdb=no --overwrite"
+
+- name: Tag the couchdb nodes
+  shell: "kubectl --kubeconfig='./kubeconfig' label nodes {{ hostvars[item].openstack.name }} couchdb=yes --overwrite"
+  with_items: "{{ groups['all'] }}"
+  when: hostvars[item].openstack.name.startswith('master')

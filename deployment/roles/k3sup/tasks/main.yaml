@@ -5,3 +5,6 @@
 - name: "Configure k3s cluster"
   import_tasks: cluster.yaml
 
+- name: "Tag nodes"
+  import_tasks: tagnodes.yaml
+

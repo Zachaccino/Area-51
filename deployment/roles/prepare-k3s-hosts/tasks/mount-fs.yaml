@@ -1,0 +1,9 @@
+---
+- name: Build the filesystem
+  shell: mkfs.ext4 /dev/vdb
+
+- name: Make local directory
+  shell: mkdir /mnt/couch
+
+- name: Mount the dir
+  shell: mount -t auto -v /dev/vdb /mnt/couch
