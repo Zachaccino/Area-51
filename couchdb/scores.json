@@ -1,0 +1,8 @@
+{
+    "_id": "_design/scores",
+    "views": {
+        "stats": {
+            "map": "function (doc) {emit(doc._id, [doc.polarity, doc.subjectivity])};"
+          }
+      }
+}
