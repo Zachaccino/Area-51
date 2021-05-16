@@ -3,4 +3,5 @@
 *.swa
 *.swp
 .secrets/*
+kubeconfig
 

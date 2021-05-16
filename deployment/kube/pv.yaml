@@ -1,0 +1,72 @@
+--- # based on https://faun.pub/deploying-a-couchdb-cluster-on-kubernetes-d4eb50a08b34
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: area51-local-pv-0
+  labels:
+    volume: couch-volume
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: area51-local-storage
+  local:
+    path: /mnt/couch
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: area51-local-pv-1
+  labels:
+    volume: couch-volume
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: area51-local-storage
+  local:
+    path: /mnt/couch
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: area51-local-pv-2
+  labels:
+    volume: couch-volume
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: area51-local-storage
+  local:
+    path: /mnt/couch
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-2

@@ -1,0 +1,10 @@
+---
+- name: "export kubeconfig file"
+  shell:
+    cmd: 'export KUBECONFIG=$(pwd)/kubeconfig'
+
+- name: "Deploy couchdb"
+  import_tasks: deploy.yaml
+
+- name: "Connect instances"
+  import_tasks: connect.yaml

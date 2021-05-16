@@ -1,4 +1,8 @@
 ---
+- name: Wait for about 30s for nodes to come online
+  wait_for:
+    timeout: 30
+
 - name: Tag the init node
   shell: "kubectl --kubeconfig='./kubeconfig' label nodes init couchdb=no --overwrite"
 

@@ -1,0 +1,55 @@
+--- # based on https://faun.pub/deploying-a-couchdb-cluster-on-kubernetes-d4eb50a08b34
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: couchdb
+spec:
+  serviceName: "couch-service"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: couch
+  template:
+    metadata:
+      labels:
+        app: couch # pod label
+    spec:
+      containers:
+      - name: couchdb
+        image: couchdb:2.3.1
+        env:
+        - name: NODE_NETBIOS_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NODENAME
+          value: $(NODE_NETBIOS_NAME).couch-service # FQDN in vm.args
+        - name: COUCHDB_USER
+          value: admin
+        - name: COUCHDB_PASSWORD
+          value: password
+        - name: COUCHDB_SECRET
+          value: monster
+        - name: ERL_FLAGS
+          value: "-name couchdb@$(NODENAME)"
+        - name: ERL_FLAGS
+          value: "-setcookie monster" #   the “password” used when nodes connect to each other.
+        ports:
+        - name: couchdb
+          containerPort: 5984
+        - name: epmd
+          containerPort: 4369
+        - containerPort: 9100
+        volumeMounts:
+          - name: local-couchdb-pv
+            mountPath: /opt/couchdb/data
+  volumeClaimTemplates:
+  - metadata:
+      name: local-couchdb-pv
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: area51-local-storage
+      resources:
+        requests:
+          storage: 50Gi

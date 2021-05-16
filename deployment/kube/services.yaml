@@ -1,0 +1,32 @@
+--- # based on https://faun.pub/deploying-a-couchdb-cluster-on-kubernetes-d4eb50a08b34
+apiVersion: v1
+kind: Service # Expose couchDB internally to the cluster
+metadata:
+  name: couch-service
+  namespace: default
+  labels:
+    app: couch
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 5984
+    protocol: TCP
+    targetPort: 5984
+  selector:
+    app: couch # Matches all couchdb pods
+---
+kind: Service # Exposes the db externally on port 30001
+apiVersion: v1
+metadata:
+  name: couch-nodeport
+  labels:
+    app: couch
+spec:
+  type: NodePort
+  ports:
+  - port: 5984
+    nodePort: 30001
+    protocol: TCP
+  selector:
+    app: couch # Matches all couchdb pods

@@ -1,0 +1,5 @@
+---
+- name: "Create couchdb chart"
+  shell:
+    cmd: 'kubectl create -f kube/'
+
