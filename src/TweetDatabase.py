@@ -73,6 +73,22 @@ class TweetDatabase:
       return user
     except Exception:
       return None
+  
+  # visited is None means get all users, True means get users that are visited
+  # False means get users that are not visited.
+  def get_all_users(self, visited=None):
+    db = self.client[self.users_db_name]
+    # generate user on the fly using yield
+    for user_doc in db:
+      try:
+        user = User()
+        user.from_dict(user_doc)
+        if visited != None and user.visited != visited:
+          continue
+        yield user
+      except Exception:
+        # This is because design document is part of user database
+        continue
 
   def update_tweet(self, tweet) -> bool:
     try:
@@ -80,6 +96,7 @@ class TweetDatabase:
       doc = db[tweet.id]
       doc["content"] = tweet.content
       doc["coordinate"] = tweet.coordinate
+      doc["city"] = tweet.city
       doc["bounding_box"] = tweet.bounding_box
       doc["user_id"] = tweet.user_id
       doc["polarity"] = tweet.polarity
@@ -116,7 +133,7 @@ class TweetDatabase:
 
 
    # Get sentiment scores.
-  def get_sentiment():
+  def get_sentiment(self):
     # polarity scores 
     # Step 1: Map Reduce Here
     sydney_sentiment = 0
