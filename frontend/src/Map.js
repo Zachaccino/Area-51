@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
+import Address from './Address';
 
 
 const mapStyles = [
@@ -268,7 +269,7 @@ export class MapContainer extends Component {
   }
 
   loadData = () => {
-    axios.get(`http://127.0.0.1:5000/data?view_index=${this.state.scenarioIndex}`)
+    axios.get(`${Address()}/data?view_index=${this.state.scenarioIndex}`)
       .then(res => {
         const sydAurin = res.data["sydney"]["aurin"]
         const sydScore = res.data["sydney"]["score"]
@@ -289,8 +290,6 @@ export class MapContainer extends Component {
           sydResult.push(`${sydLabel}: ${sydScore}`)
           melbResult.push(`${melbLabel}: ${melbScore}`)
         }
-        
-        console.log(melbScore)
 
         this.setState({
           melbGridLabels: melbResult,

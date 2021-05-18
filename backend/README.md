@@ -1,12 +1,18 @@
 # Build
 
 ```
-docker build . -t a51frontend
+docker build . -t a51backend
 ```
 
 # Configure
 
-You need to update the public backend address in the file Map.js
+You need these environment variables in a file.
+
+```
+DB_USERNAME=***
+DB_PASSWORD=***
+DB_ADDRESS=http://***.***.***.***:***
+```
 
 # Run
 
