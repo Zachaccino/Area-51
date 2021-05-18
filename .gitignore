@@ -5,3 +5,6 @@
 .secrets/*
 kubeconfig
 
+.env
+.env
+__pycache__
