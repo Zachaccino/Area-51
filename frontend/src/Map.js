@@ -229,7 +229,6 @@ function mkGrid(coordinate, width, height, rows, cols) {
 }
 
 function mkGridPolygon(boxes) {
-  console.log(boxes)
   const polygons = []
   for (let i = 0; i < boxes.length; i++) {
     polygons.push(mkBoxPolygon(boxes[i]))
@@ -254,44 +253,48 @@ export class MapContainer extends Component {
   state = {
     melbGridLabels: ["Loading", "Loading"],
     sydGridLabels: ["Loading", "Loading"],
-    sydAurin: [],
-    sydScore: [],
-    sydLabel: [],
-    melbAurin: [],
-    melbScore: [],
-    melbLabel: [],
+    sydAurin: 0.0,
+    sydScore: 0.0,
+    sydLabel: "Loading",
+    melbAurin: 0.0,
+    melbScore: 0.0,
+    melbLabel: "Loading",
     description: "Loading",
     title: "Loading",
     dataLabel: "Loading",
     showingAurin: true,
-    buttonLabel: "Toggle Data"
+    buttonLabel: "Toggle Data",
+    scenarioIndex: 0
   }
 
-  componentDidMount() {
-    axios.get(`http://127.0.0.1:5000/data`)
+  loadData = () => {
+    axios.get(`http://127.0.0.1:5000/data?view_index=${this.state.scenarioIndex}`)
       .then(res => {
-        console.log(res.data)
         const sydAurin = res.data["sydney"]["aurin"]
         const sydScore = res.data["sydney"]["score"]
-        const sydLabel = res.data["sydney"]["labels"]
-        const sydResult = []
-
-        for (let i = 0; i < sydAurin.length; i++) {
-          sydResult.push(`${sydLabel[i]}: ${sydAurin[i]}`)
-        }
+        const sydLabel = res.data["sydney"]["label"]
 
         const melbAurin = res.data["melbourne"]["aurin"]
         const melbScore = res.data["melbourne"]["score"]  
-        const melbLabel = res.data["melbourne"]["labels"]
-        const melbResult = []
+        const melbLabel = res.data["melbourne"]["label"]
 
-        for (let i = 0; i < melbAurin.length; i++) {
-          melbResult.push(`${melbLabel[i]}: ${melbAurin[i]}`)
+        const sydResult = []
+        const melbResult = []
+        const showingAurin = this.state.showingAurin
+
+        if (showingAurin) {
+          sydResult.push(`${sydLabel}: ${sydAurin}`)
+          melbResult.push(`${melbLabel}: ${melbAurin}`)
+        } else {
+          sydResult.push(`${sydLabel}: ${sydScore}`)
+          melbResult.push(`${melbLabel}: ${melbScore}`)
         }
         
+        console.log(melbScore)
+
         this.setState({
-          melbGridLabels: sydResult,
-          sydGridLabels: melbResult,
+          melbGridLabels: melbResult,
+          sydGridLabels: sydResult,
           sydAurin: sydAurin,
           sydScore: sydScore,
           sydLabel: sydLabel,
@@ -305,30 +308,54 @@ export class MapContainer extends Component {
       })
   }
 
+  nextScenario = () => {
+    let index = this.state.scenarioIndex + 1 
+    if (index > 8){
+      index = 8
+    } else if (index < 0) {
+      index = 0
+    }
+    this.setState({
+      scenarioIndex: index
+    }, () => {
+      this.loadData()
+    })
+  }
+
+  previousScenario = () => {
+    let index = this.state.scenarioIndex - 1 
+    if (index > 8){
+      index = 8
+    } else if (index < 0) {
+      index = 0
+    }
+    this.setState({
+      scenarioIndex: index
+    }, () => {
+      this.loadData()
+    })
+  }
+
+  componentDidMount() {
+    this.loadData()
+  }
+
   switchData = () => {
     const sydResult = []
     const melbResult = []
     const showingAurin = !this.state.showingAurin
-    console.log(this.state.sydScore)
+
     if (showingAurin) {
-      for (let i = 0; i < this.state.sydScore.length; i++) {
-        sydResult.push(`${this.state.sydLabel[i]}: ${this.state.sydAurin[i]}`)
-      }
-      for (let i = 0; i < this.state.melbScore.length; i++) {
-        melbResult.push(`${this.state.melbLabel[i]}: ${this.state.melbAurin[i]}`)
-      }
+      sydResult.push(`${this.state.sydLabel}: ${this.state.sydAurin}`)
+      melbResult.push(`${this.state.melbLabel}: ${this.state.melbAurin}`)
     } else {
-      for (let i = 0; i < this.state.sydAurin.length; i++) {
-        sydResult.push(`${this.state.sydLabel[i]}: ${this.state.sydScore[i]}`)
-      }
-      for (let i = 0; i < this.state.melbAurin.length; i++) {
-        melbResult.push(`${this.state.melbLabel[i]}: ${this.state.melbScore[i]}`)
-      }
+      sydResult.push(`${this.state.sydLabel}: ${this.state.sydScore}`)
+      melbResult.push(`${this.state.melbLabel}: ${this.state.melbScore}`)
     }
 
     this.setState({
-      melbGridLabels: sydResult,
-      sydGridLabels: melbResult,
+      melbGridLabels: melbResult,
+      sydGridLabels: sydResult,
       showingAurin: showingAurin
     })
   }
@@ -402,16 +429,31 @@ export class MapContainer extends Component {
                     {this.state.description}
                   </Typography>
                 </CardContent>
+
                 <CardActions>
                 <Button color="primary" size="small" onClick={this.switchData}>
                   {this.state.buttonLabel}
                 </Button>
                 <Button size="small" disabled style={{color:"#DB4D6D"}}>
                     Currently showing {this.state.showingAurin ? "AURIN" : this.state.dataLabel} data
+                </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            <Grid item>
+              <Card style={{width:500}}>
+                <CardActions>
+                  <Button color="primary" size="small" onClick={this.previousScenario}>
+                    Previous Scenario
+                  </Button>
+                  <Button color="primary" size="small" onClick={this.nextScenario}>
+                    Next Scenario
                   </Button>
                 </CardActions>
               </Card>
             </Grid>
+
           </Grid>  
         </div>
         

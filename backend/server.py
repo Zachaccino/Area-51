@@ -1,20 +1,20 @@
-import couchdb
 from flask import Flask
 from flask_cors import CORS
 import json
+from TweetDatabase import TweetDatabase
+import os
+from flask import request
 
 
 # Database Info
-couch_user = "admin"
-couch_password = "pass"
-couch_address = "127.0.0.1"
-couch_port = 5984
-couch_db_name = "tweet"
-couch_url = f'http://{couch_user}:{couch_password}@{couch_address}:{couch_port}/'
+db_username = os.environ.get("DB_USERNAME")
+db_password = os.environ.get("DB_PASSWORD")
+db_address = os.environ.get("DB_ADDRESS")
 
-# Database
-couch = couchdb.Server(couch_url)
-db = couch['tweet']
+db = TweetDatabase()
+db.connect(db_username, db_password, db_address)
+db.setup()
+
 
 # Server Info
 server_version = 0.1
@@ -22,8 +22,6 @@ server_id = "SERVER-0"
 app = Flask(__name__)
 CORS(app)
 
-
-dummy_text = "Curabitur at convallis augue, in iaculis ligula. Sed viverra mauris urna, ut aliquet ligula vulputate ut. Maecenas eu accumsan nisl. Nullam rhoncus lorem a ante placerat, sit amet tempus ipsum aliquet."
 
 # Endpoints
 @app.route('/')
@@ -36,20 +34,93 @@ def server_info():
 
 @app.route('/data')
 def data():
+    # empty template
     result = {
         "sydney": {
-            "aurin": [1, 2],
-            "score": [10, 20],
-            "labels": ["A1", "A2"]
+            "aurin": 0,
+            "score": 0,
+            "labels": ["Sydney"]
         },
         "melbourne": {
-            "aurin": [3, 4],
-            "score": [30, 40],
-            "labels": ["A3", "A4"]
+            "aurin": 0,
+            "score": 0,
+            "labels": ["Melbourne"]
         },
-        "data_name": "sentiment",
-        "description": "This is a description of the scenario. " + dummy_text,
-        "title": "Scenario Title"
+        "data_name": "N/A",
+        "description": "No scenario had been selected",
+        "title": "N/A"
     }
+
+    index = request.args.get('view_index')
+    if not index.isnumeric():
+        return result
+
+    index = int(index)
+    if not (index >= 0 and index < 9):
+        return result
+    
+    views = [
+        "vulgard",
+        "polarity",
+        "subjectivity",
+        "count",
+        "covid",
+        "climate",
+        "finance",
+        "housing",
+        "sport"
+    ]
+
+    descriptions = [
+        "vulgard",
+        "polarity",
+        "subjectivity",
+        "count",
+        "covid",
+        "climate",
+        "finance",
+        "housing",
+        "sport"
+    ]
+
+    titles = [
+        "vulgard",
+        "polarity",
+        "subjectivity",
+        "count",
+        "covid",
+        "climate",
+        "finance",
+        "housing",
+        "sport"
+    ]
+
+    # TODO: Need to add Aurin data which we don't have yet.
+    aurin = {
+        "sydney_1": 0,
+        "sydney_2": 0,
+        "melbourne_1": 0,
+        "melbourne_2": 0
+    }
+
+    view_result = db.get_stats(views[index])
+
+    # TODO: Need to compute results from two bounding boxes together.
+    result = {
+        "sydney": {
+            "aurin": aurin["sydney_1"] + aurin["sydney_2"],
+            "score": view_result["sydney_1"] + view_result["sydney_2"],
+            "label": "Sydney"
+        },
+        "melbourne": {
+            "aurin": aurin["melbourne_1"] + aurin["melbourne_2"],
+            "score": view_result["melbourne_1"] + view_result["melbourne_2"],
+            "label": "Melbourne"
+        },
+        "data_name": views[index],
+        "description": descriptions[index],
+        "title": titles[index]
+    }
+
     return json.dumps(result)
 

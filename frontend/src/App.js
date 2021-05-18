@@ -10,7 +10,6 @@ function App() {
       <div>
         <GoogleApiWrapper></GoogleApiWrapper>
       </div>
-      
 
     </div>
   );
