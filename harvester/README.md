@@ -32,7 +32,7 @@ Note that the environment variable `HARVESTER_TYPE` can be a string of either `T
 You can run a harvester by using the command below.
 
 ```bash
-
+docker run --env-file .env harvester
 ```
 
 
