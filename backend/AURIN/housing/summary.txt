@@ -1,0 +1,21 @@
+Melb =  [144.593741856, -38.433859306, 145.512528832, -37.5112737225] = [LONG1, LAT1, LONG2, LAT2] 
+Syd = [150.520929, -34.118347, 151.343021, -33.578141] = [LONG1, LAT1, LONG2, LAT2] 
+
+
+CoreLogic- Total Properties - Market Trends (LGA) Jan 1980-Mar 2021
+Month = 3
+Year = 2021
+Property Type = H
+Local Government Area Code
+Local Government Area
+Maximum ACM
+Median asking rent last 12 months
+Median AVM
+Median AVM FSD
+Median AVM rental yield
+Median sales price last 12 months
+Minimum AVM
+Number of sales last 12 months
+Total sales value last 12 months
+Average land size
+Indicative gross rental yield
