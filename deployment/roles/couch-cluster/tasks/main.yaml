@@ -1,4 +1,8 @@
 ---
+- name: "Create namespace"
+  shell:
+    cmd: 'kubectl create namespace couchdb-cluster'
+
 - name: "export kubeconfig file"
   shell:
     cmd: 'export KUBECONFIG=$(pwd)/kubeconfig'

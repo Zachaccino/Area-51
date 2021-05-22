@@ -1,5 +1,5 @@
 ---
 - name: "Create couchdb chart"
   shell:
-    cmd: 'kubectl create -f couch/'
+    cmd: 'kubectl apply -f couch/'
 

@@ -1,3 +1,4 @@
+---
 - name: "Create namespace"
   shell:
     cmd: 'kubectl create namespace docker-registry'

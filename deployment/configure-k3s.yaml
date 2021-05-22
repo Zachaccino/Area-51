@@ -10,7 +10,7 @@
   vars_files:
     - host_vars/os_hosts.yaml
   roles:
-#    - role: k3sup
+    - role: k3sup
     - role: couch-cluster
     - role: docker-registry
 
