@@ -1,0 +1,6 @@
+---
+- name: "Add registry to k3s"
+  copy:
+    src: files/registries.yaml
+    dest: /etc/rancher/k3s/registries.yaml
+

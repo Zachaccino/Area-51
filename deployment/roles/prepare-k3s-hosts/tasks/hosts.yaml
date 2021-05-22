@@ -13,7 +13,7 @@
 - name: Add peers to file
   lineinfile:
     path: /etc/hosts
-    line: '{{ hostvars[item].openstack.accessIPv4 }} {{ hostvars[item].openstack.name }}' 
+    line: '{{ hostvars[item].openstack.accessIPv4 }} {{ hostvars[item].openstack.name }}'
     state: present
   loop: "{{ groups['all'] }}"
 

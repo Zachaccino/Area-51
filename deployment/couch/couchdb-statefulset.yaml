@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: couchdb
+  namespace: couchdb-cluster
 spec:
   serviceName: "couch-service"
   replicas: 3
@@ -47,6 +48,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: local-couchdb-pv
+      namespace: couchdb-cluster
     spec:
       accessModes: ["ReadWriteOnce"]
       storageClassName: area51-local-storage

@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service # Expose couchDB internally to the cluster
 metadata:
   name: couch-service
-  namespace: default
+  namespace: couchdb-cluster
   labels:
     app: couch
 spec:
@@ -20,6 +20,7 @@ kind: Service # Exposes the db externally on port 30001
 apiVersion: v1
 metadata:
   name: couch-nodeport
+  namespace: couchdb-cluster
   labels:
     app: couch
 spec:

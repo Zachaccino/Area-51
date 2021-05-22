@@ -1,0 +1,7 @@
+--- # based on https://faun.pub/deploying-a-couchdb-cluster-on-kubernetes-d4eb50a08b34
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: area51-docker-registry-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer

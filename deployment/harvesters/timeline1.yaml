@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: harvester_1
+  namespace: default
+spec:
+  containers:
+  - name: tweet_harvester_1
+    image: localhost:30002/harvester
+    imagePullPolicy: Always
+    env:
+      - name: HARVESTER_TYPE
+        value: "TWEET"
+      - name: BBOX_INDEX
+        value: "1"
+      - name: CONSUMER_KEY
+#        value: 'WnejL84RXDzkcwu5xrx0aPJbn' # Brad
+#        value: "703qFBNhG8NmZhVpgrZ7SDaHo" # Floyd, blacklisted
+        value: 'u32mQWX9oH5hCeGdNmTREqoyH' # Zac
+#        value: 'vYycLnh2DfFzIqq0759IAJwMj' # Iris
+      - name: CONSUMER_SECRET_KEY
+#        value: 'JxBVxuvwBGR87QwNvM5sYVuUad1rZkK4exFv6cXD3U85CrQ1Bu'
+#        value: "wBRRuMJc4uxrestsTC86lBgi0BuN3xL9ZVNrmwCFzSJvzjxH5a"
+        value: 'kTyk9Y16Zcf7xcusErrviz97v754j4d76yx3rxj3gliOFpmpV8'
+#        value: 'a8EWCbxQ5Wklbcj8vg8BXvqYy01BkzACG1ADi2PtthnlpoA6UK'
+      - name: ACCESS_TOKEN
+#        value: '1177721462322429952-FVIHD9Qcfic4DTwN9xjUD60yzfZcw8'
+#        value: "1387318226736979969-i9sZevhBisdtIVFP2LPgKxPJ7JpNQb"
+        value: '2736973776-BLvoDsVFs07clTiIkeJi7mA9pYyKVhp8QI1gsPO'
+#        value: '1387318136915906560-NNt5FqVkOEC39Mp1MsVi3zz26IigUA'
+      - name: ACCESS_TOKEN_SECRET
+#        value: 'hokNb7Zart2qeu5HDOonrCJ7RbioYTH10Bkdh4WOpNU9r'
+#        value: "xZbu3m9rX0CqXG0vznjQ9qr9qBNpELSULPOgmsX3bHhYp"
+        value: 'iG1qveU6jUUtUkZVSFbSKG8CInqSrVZ5vwLYrDYsJ1ZgY'
+#        value: 'a3L5igL0a4u15y7NkvKOvQpPUl2V0hwxF0inPivg1yRcq'
+      - name: DB_USERNAME
+        value: "admin"
+      - name: DB_PASSWORD
+        value: "password"
+      - name: DB_ADDRESS
+        value: "http://couch-service:5984/"
+      - name: HTTP_PROXY
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: HTTPS_PROXY
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: http_proxy
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: https_proxy
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: no_proxy
+        value: "localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.nectar.org.au,.storage.unimelb.edu.au,.cloud.unimelb.edu.au,couch-service"
+  - name: timeline_harvester_1
+    image: localhost:30002/harvester
+    imagePullPolicy: Always
+    env:
+      - name: HARVESTER_TYPE
+        value: "TIMELINE"
+      - name: BBOX_INDEX
+        value: "1"
+      - name: CONSUMER_KEY
+#        value: 'WnejL84RXDzkcwu5xrx0aPJbn' # Brad
+#        value: "703qFBNhG8NmZhVpgrZ7SDaHo" # Floyd, blacklisted
+        value: 'u32mQWX9oH5hCeGdNmTREqoyH' # Zac
+#        value: 'vYycLnh2DfFzIqq0759IAJwMj' # Iris
+      - name: CONSUMER_SECRET_KEY
+#        value: 'JxBVxuvwBGR87QwNvM5sYVuUad1rZkK4exFv6cXD3U85CrQ1Bu'
+#        value: "wBRRuMJc4uxrestsTC86lBgi0BuN3xL9ZVNrmwCFzSJvzjxH5a"
+        value: 'kTyk9Y16Zcf7xcusErrviz97v754j4d76yx3rxj3gliOFpmpV8'
+#        value: 'a8EWCbxQ5Wklbcj8vg8BXvqYy01BkzACG1ADi2PtthnlpoA6UK'
+      - name: ACCESS_TOKEN
+#        value: '1177721462322429952-FVIHD9Qcfic4DTwN9xjUD60yzfZcw8'
+#        value: "1387318226736979969-i9sZevhBisdtIVFP2LPgKxPJ7JpNQb"
+        value: '2736973776-BLvoDsVFs07clTiIkeJi7mA9pYyKVhp8QI1gsPO'
+#        value: '1387318136915906560-NNt5FqVkOEC39Mp1MsVi3zz26IigUA'
+      - name: ACCESS_TOKEN_SECRET
+#        value: 'hokNb7Zart2qeu5HDOonrCJ7RbioYTH10Bkdh4WOpNU9r'
+#        value: "xZbu3m9rX0CqXG0vznjQ9qr9qBNpELSULPOgmsX3bHhYp"
+        value: 'iG1qveU6jUUtUkZVSFbSKG8CInqSrVZ5vwLYrDYsJ1ZgY'
+#        value: 'a3L5igL0a4u15y7NkvKOvQpPUl2V0hwxF0inPivg1yRcq'
+      - name: DB_USERNAME
+        value: "admin"
+      - name: DB_PASSWORD
+        value: "password"
+      - name: DB_ADDRESS
+        value: "http://couch-service:5984/"
+      - name: HTTP_PROXY
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: HTTPS_PROXY
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: http_proxy
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: https_proxy
+        value: "http://wwwproxy.unimelb.edu.au:8000/"
+      - name: no_proxy
+        value: "localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.nectar.org.au,.storage.unimelb.edu.au,.cloud.unimelb.edu.au,couch-service"
+  restartPolicy: Always

@@ -1,0 +1,8 @@
+- name: "Create namespace"
+  shell:
+    cmd: 'kubectl create namespace docker-registry'
+
+- name: "Create registry from chart"
+  shell: 'kubectl apply -f registry/'
+
+
