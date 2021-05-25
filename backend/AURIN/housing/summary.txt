@@ -1,6 +1,9 @@
 Australia (country/au)
 
 CoreLogic- Total Properties - Market Trends (LGA) Jan 1980-Mar 2021
+
+key_col = lga_code16
+
 Month = 3
 Year = 2021
 Property Type = H

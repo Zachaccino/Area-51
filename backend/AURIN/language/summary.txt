@@ -1,7 +1,9 @@
 Australia (country/au)
 
-
 LGA-G13d Language Spoken at Home by Proficiency in Spoken Eng by Sex-Census 2016
+
+key_col = lga_code_2016
+
 LGA Code 2016
 LGA Name 2016
 Persons Language spoken at home not stated Total

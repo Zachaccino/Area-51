@@ -1,7 +1,9 @@
 Australia (country/au)
 
-
 PHIDU - Age Distribution - Broad Age Groups: Persons (LGA) 2017
+
+key_col = lga_code16
+
 LGA Code 2016
 LGA Name 2016
 Persons, 0-14 Years 2017 Erp Number

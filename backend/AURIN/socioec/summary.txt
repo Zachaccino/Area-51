@@ -1,6 +1,9 @@
 Australia (country/au)
 
 PHIDU - Measure of Disadvantage - Summary (LGA) 2016
+
+key_col = lga_code
+
 LGA Code 2016
 LGA Name 2016
 Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score (Based on Australian Score Of 1000)
