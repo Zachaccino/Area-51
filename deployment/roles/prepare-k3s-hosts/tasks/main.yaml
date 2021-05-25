@@ -8,6 +8,10 @@
 - name: Disable swap
   import_tasks: disable-swap.yaml
 
-- name: Mount volumes
+- name: Mount volumes on couchDB nodes
   import_tasks: mount-fs.yaml
   when: hostvars[inventory_hostname].openstack.name.find('init') == -1
+
+- name: Mount docker registry volume
+  import_tasks: mount-registry-volume.yaml
+  when: hostvars[inventory_hostname].openstack.name.find('init') != -1

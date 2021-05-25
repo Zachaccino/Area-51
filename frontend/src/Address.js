@@ -1,5 +1,5 @@
 function Address() {
-    return "http://172.16.0.3:5000";
+    return "http://" + window.location.hostname + ":30003";
 }
-  
+
 export default Address;

@@ -30,6 +30,9 @@ class TweetListener(tweepy.StreamListener):
 
         n_words, n_vulgards, polarity, subjectivity, topic_scores = compute_score(self.pipeline, content, self.topic_keywords)
 
+        if not contains_keywords(self.topic_keywords, content) and n_vulgards == 0:
+            return
+
         # check that all tweets from given bounding box actually come from that bounding box (and therefore correspond to the city)
         # some tweets will be harvested that have a bounding_box outside of city area 
         location = None

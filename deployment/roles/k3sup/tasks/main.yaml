@@ -1,7 +1,4 @@
 ---
-#- name: "Install k3sup"
-#  import_tasks: requirements.yaml
-
 - name: "Configure k3s cluster"
   import_tasks: cluster.yaml
 

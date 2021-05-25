@@ -1,0 +1,4 @@
+mirrors:
+  docker-registry:
+    endpoint:
+      - "http://localhost:30002"

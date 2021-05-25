@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: area51-web-front
+  namespace: area51-website
+  labels:
+    app: area51-web-front
+spec:
+  containers:
+  - name: area51-web-front
+    image: localhost:30002/frontend
+    imagePullPolicy: Always
+    ports:
+    - name: nginx
+      containerPort: 80

@@ -2,4 +2,3 @@ covid.txt
 climate.txt
 finance.txt
 housing.txt
-sport.txt

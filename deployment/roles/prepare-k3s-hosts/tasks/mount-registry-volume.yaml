@@ -1,0 +1,10 @@
+---
+- name: Build the registry filesystem
+  shell: mkfs.ext4 /dev/vdb
+
+- name: Make local registry directory
+  shell: mkdir /mnt/registry
+
+- name: Mount the registr dir
+  shell: mount -t auto -v /dev/vdb /mnt/registry
+

@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: area51-web-back
+  namespace: area51-website
+  labels:
+    app: area51-web-back
+spec:
+  containers:
+  - name: area51-web-back
+    image: localhost:30002/backend
+    imagePullPolicy: Always
+    env:
+      - name: DB_USERNAME
+        value: "admin"
+      - name: DB_PASSWORD
+        value: "password"
+      - name: DB_ADDRESS
+        value: "http://couch-service.couchdb-cluster:5984/"
+    ports:
+    - name: gunicorn
+      containerPort: 8000
+

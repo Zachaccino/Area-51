@@ -7,12 +7,13 @@
 
 - name: Init cluster
   ansible.builtin.shell:
-    cmd: 'k3sup install --ssh-key {{ local_key_path }} --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --cluster --k3s-version v1.21.0+k3s1'
+    cmd: 'k3sup install --ssh-key {{ local_key_path }} --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --cluster --k3s-version {{ k3s_version }}'
   with_items: "{{ groups['all'] }}"
   when: hostvars[item].openstack.name.startswith('init')
 
-- name: Join nodes to cluster
+- name: Join nodes to cluster in HA configuration
   ansible.builtin.shell:
-    cmd: "k3sup join --ssh-key {{ local_key_path }} --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --server-user ubuntu --server-ip {{ init_ip[0] }} --k3s-version v1.21.0+k3s1"
+    cmd: "k3sup join --ssh-key {{ local_key_path }} --ip {{ hostvars[item].openstack.accessIPv4 }} --user ubuntu --server-user ubuntu --server-ip {{ init_ip[0] }} --k3s-version {{ k3s_version }} --server"
+
   with_items: "{{ groups['all'] }}"
   when: hostvars[item].openstack.name.startswith('master')

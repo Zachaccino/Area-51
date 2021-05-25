@@ -3,12 +3,19 @@
   remote_user: ubuntu
   become: yes
   roles:
-#    - role: prepare-k3s-hosts
+    - role: prepare-k3s-hosts
 
 - hosts: localhost
   gather_facts: false
   vars_files:
     - host_vars/os_hosts.yaml
   roles:
-#    - role: k3sup
+    - role: k3sup
     - role: couch-cluster
+    - role: docker-registry
+
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - role: configure-registry

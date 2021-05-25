@@ -1,6 +1,9 @@
 # Common vars
 availability_zone: melbourne-qh2-uom
 
+# K3s version
+k3s_version: "v1.21.0+k3s1"
+
 # Volume
 volumes:
   - vol_name: couchdb-1
@@ -9,18 +12,20 @@ volumes:
     vol_size: 50
   - vol_name: couchdb-3
     vol_size: 50
+  - vol_name: registry
+    vol_size: 50
 
 security_groups:
   - name: cluster
     internal: true
     description: "Allows all traffic between nodes"
     remote_group: cluster
-  - name: admin interface
+  - name: services
     internal: false
-    description: "Security group for external access to admin interface"
+    description: "Security group for external access to admin interface, web app, and docker registry"
     protocol: tcp
     port_range_min: 30001
-    port_range_max: 30001
+    port_range_max: 30004
     remote_ip_prefix: 0.0.0.0/0
   - name: k3s api
     internal: false
@@ -29,68 +34,21 @@ security_groups:
     port_range_min: 6443
     port_range_max: 6443
     remote_ip_prefix: 0.0.0.0/0
-#  - name: dns tcp
-#    description: "Security group for k3s TCP coredns"
-#    protocol: tcp
-#    port_range_min: 53
-#    port_range_max: 53
-#    remote_ip_prefix: 172.0.0.0/8
-#  - name: dns tcp alt
-#    description: "Alternate security group for k3s TCP coredns"
-#    protocol: tcp
-#    port_range_min: 9153
-#    port_range_max: 9153
-#    remote_ip_prefix: 172.0.0.0/8
-#  - name: dns udp
-#    description: "Security group for k3s UDP coredns"
-#    protocol: udp
-#    port_range_min: 53
-#    port_range_max: 53
-#    remote_ip_prefix: 172.0.0.0/8
-#  - name: embedded etcd
-#    description: "Security group for the HA embedded etcd service"
-#    protocol: tcp
-#    port_range_min: 2379
-#    port_range_max: 2380
-#    remote_ip_prefix: 0.0.0.0/0
-#  - name: CouchDB HTTP API
-#    description: "Ports for the CouchDB HTTP API external requests"
-#    protocol: tcp
-#    port_range_min: 5984
-#    port_range_max: 5984
-#    remote_ip_prefix: 0.0.0.0/0
-#  - name: CouchDB Erlang port mapper daemon
-#    description: "Ports for the CouchDB port mapper"
-#    protocol: tcp
-#    port_range_min: 4369
-#    port_range_max: 4369
-#    remote_ip_prefix: 172.0.0.0/8
-#  - name: CouchDB node communication
-#    description: "Ports for the CouchDB node communication"
-#    protocol: tcp
-#    port_range_max: 9100
-#    port_range_min: 9100
-#    remote_ip_prefix: 172.0.0.0/8
-
 
 # Instance
 masters:
   - name: master-1
     volumes: ['couchdb-1']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api']
- # ['cluster','ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication', 'dns tcp', 'dns tcp alt', 'dns udp']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
   - name: master-2
     volumes: ['couchdb-2']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api']
- # ['cluster','ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication', 'dns tcp', 'dns tcp alt', 'dns udp']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
   - name: master-3
     volumes: ['couchdb-3']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api']
- # ['cluster','ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication', 'dns tcp', 'dns tcp alt', 'dns udp']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
 init:
-  volumes: []
-  security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api']
- # ['cluster','ssh','http','k3s api','embedded etcd', 'CouchDB HTTP API', 'CouchDB Erlang port mapper daemon', 'CouchDB node communication', 'dns tcp', 'dns tcp alt', 'dns udp']
+  volumes: ['registry']
+  security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
 
 instance_image: NeCTAR Ubuntu 20.04 LTS (Focal) amd64
 instance_key_name: Area51
