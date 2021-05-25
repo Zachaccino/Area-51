@@ -1,3 +1,11 @@
+"""
+Jingyuan Tu (1232404), Melbourne, Australia
+Floyd Everest-Dobson (664751), Melbourne, Australia
+Bradley Schuurman (586088), Melbourne, Australia
+Iris Li (875195), Melbourne, Australia
+Paul Ou (888653), Melbourne, Australia
+"""
+
 from TweetListener import TweetListener
 import tweepy
 from urllib3.exceptions import ProtocolError
