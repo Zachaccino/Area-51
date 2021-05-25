@@ -81,8 +81,8 @@ def data():
 
     descriptions = [
         "The amount of swear words comparing to the number of bachelor degree graduates.",
-        "The polarity of words comparing to the median sales price of houses for the last 12 months.",
-        "The subjectivity of words comparing to the median sales price of houses for the last 12 months.",
+        "The polarity of tweets comparing to the median sales price of houses for the last 12 months.",
+        "The subjectivity of tweets.",
         "The word count of tweets comparing to the number of bachelor degree graduates.",
         "The covid (and related words) word count comparing to Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score.",
         "The climate (and related words) word count comparing to the number of bachelor degree graduates.",
@@ -94,7 +94,7 @@ def data():
     titles = [
         "Vulgard vs Education",
         "Polarity vs Housing",
-        "Subjectivty vs Housing",
+        "Subjectivty",
         "Tweet Count vs Education",
         "Covid vs Social Economics",
         "Climate vs Education",
@@ -125,13 +125,19 @@ def data():
             "sydney_2": 600.10,
             "melbourne_1": 577.42,
             "melbourne_2": 577.42
+        },
+        "none": {
+            "sydney_1": 0,
+            "sydney_2": 0,
+            "melbourne_1": 0,
+            "melbourne_2": 0
         }
     }
 
     data_pairing = {
         "vulgard": "education",
         "polarity": "housing",
-        "subjectivity": "housing",
+        "subjectivity": "none",
         "count": "education",
         "covid": "social",
         "climate": "education",
