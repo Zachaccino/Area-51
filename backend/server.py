@@ -149,17 +149,24 @@ def data():
 
     view_result = db.get_stats(views[index])
     count_result = db.get_stats("count");
+    
+    compensation = 1
+
+    if views[index]  == "subjectivity":
+        compensation = 4
+    
+        
    
 
     result = {
         "sydney": {
             "aurin": aurin[data_pairing[views[index]]]["sydney_1"],
-            "score": round((view_result["sydney_1"] + view_result["sydney_2"]) / (count_result["sydney_1"] + count_result["sydney_2"]) * 100, 2),
+            "score": round((view_result["sydney_1"] + view_result["sydney_2"]) / (count_result["sydney_1"] + count_result["sydney_2"]) * 100 / compensation, 2),
             "label": "Sydney"
         },
         "melbourne": {
             "aurin": aurin[data_pairing[views[index]]]["melbourne_1"],
-            "score": round((view_result["melbourne_1"] + view_result["melbourne_2"]) / (count_result["melbourne_1"] + count_result["melbourne_2"]) * 100, 2),
+            "score": round((view_result["melbourne_1"] + view_result["melbourne_2"]) / (count_result["melbourne_1"] + count_result["melbourne_2"]) * 100 / compensation, 2),
             "label": "Melbourne"
         },
         "data_name": views[index],
