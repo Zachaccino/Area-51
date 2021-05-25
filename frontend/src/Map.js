@@ -309,8 +309,8 @@ export class MapContainer extends Component {
 
   nextScenario = () => {
     let index = this.state.scenarioIndex + 1 
-    if (index > 8){
-      index = 8
+    if (index > 7){
+      index = 7
     } else if (index < 0) {
       index = 0
     }
@@ -323,8 +323,8 @@ export class MapContainer extends Component {
 
   previousScenario = () => {
     let index = this.state.scenarioIndex - 1 
-    if (index > 8){
-      index = 8
+    if (index > 7){
+      index = 7
     } else if (index < 0) {
       index = 0
     }
@@ -363,22 +363,23 @@ export class MapContainer extends Component {
     // const [melbGridLabels, setMelbGridLabels] = useState(["Loading", "Loading"]);
     // const [sydGridLabels, setSydGridLabels] = useState(["Loading", "Loading"]);
 
-    const melbCoordinate = mkCoordinate(-37.81516575817448, 144.96498003350143);
+    const melbCoordinate = mkCoordinate(-37.5112737225, 144.96498003350143);
     const melbBoundCoordinate = mkCoordinate(-37.5112737225, 144.593741856);
     const melbGridRows = 1;
     const melbGridCols = 1;
-    const melbBoxWidth = 101.2; // Kilometers
-    const melbBoxHeight = 101.2; // Kilometers
+    const melbBoxWidth = 100; // Kilometers
+    const melbBoxHeight = 100; // Kilometers
     const melbGrid = mkGrid(melbBoundCoordinate, melbBoxWidth, melbBoxHeight, melbGridRows, melbGridCols);
     const melbGridPolygon = mkGridPolygon(melbGrid)
     const melbGridMarker = mkGridMarker(melbGrid, this.state.melbGridLabels);
 
-    const sydCoordinate = mkCoordinate(-33.86751670912247, 151.10226876034878);
+
+    const sydCoordinate = mkCoordinate(-33.578141, 150.520929);
     const sydBoundCoordinate = mkCoordinate(-33.51422371695108, 150.76740270605987);
     const sydGridRows = 1;
     const sydGridCols = 1;
-    const sydBoxWidth = 40; // Kilometers
-    const sydBoxHeight = 40; // Kilometers
+    const sydBoxWidth = 60; // Kilometers
+    const sydBoxHeight = 90; // Kilometers
     const sydGrid = mkGrid(sydBoundCoordinate, sydBoxWidth, sydBoxHeight, sydGridRows, sydGridCols);
     const sydGridPolygon = mkGridPolygon(sydGrid)
     const sydGridMarker = mkGridMarker(sydGrid, this.state.sydGridLabels);

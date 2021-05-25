@@ -72,49 +72,80 @@ def data():
     ]
 
     descriptions = [
-        "vulgard",
-        "polarity",
-        "subjectivity",
-        "count",
-        "covid",
-        "climate",
-        "finance",
-        "housing",
-        "sport"
+        "The amount of swear words comparing to the number of bachelor degree graduates.",
+        "The polarity of words comparing to the median sales price of houses for the last 12 months.",
+        "The subjectivity of words comparing to the median sales price of houses for the last 12 months.",
+        "The word count of tweets comparing to the number of bachelor degree graduates.",
+        "The covid (and related words) word count comparing to Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score.",
+        "The climate (and related words) word count comparing to the number of bachelor degree graduates.",
+        "The finance (and related words) word count comparing to Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score.",
+        "The housing (and related words) word count comparing to the number of bachelor degree graduates.",
+        "Not Used"
     ]
 
     titles = [
-        "vulgard",
-        "polarity",
-        "subjectivity",
-        "count",
-        "covid",
-        "climate",
-        "finance",
-        "housing",
-        "sport"
+        "Vulgard vs Education",
+        "Polarity vs Housing",
+        "Subjectivty vs Housing",
+        "Tweet Count vs Education",
+        "Covid vs Social Economics",
+        "Climate vs Education",
+        "Finance vs Social Economics",
+        "Housing vs Education",
+        "Sports vs Social Economics"
     ]
 
-    # TODO: Need to add Aurin data which we don't have yet.
+    
     aurin = {
-        "sydney_1": 0,
-        "sydney_2": 0,
-        "melbourne_1": 0,
-        "melbourne_2": 0
+        # Index Score 2016
+        "social": {
+            "sydney_1": 35.95,
+            "sydney_2": 35.95,
+            "melbourne_1": 29.30,
+            "melbourne_2": 29.30
+        },
+        # Medium sales price for the last 12 months
+        "housing": {
+            "sydney_1": 60682.22,
+            "sydney_2": 60682.22,
+            "melbourne_1": 28331.99,
+            "melbourne_2": 28331.99
+        },
+        # Total BA Degress per LGA
+        "education": {
+            "sydney_1": 600.10,
+            "sydney_2": 600.10,
+            "melbourne_1": 577.42,
+            "melbourne_2": 577.42
+        }
     }
 
-    view_result = db.get_stats(views[index])
+    data_pairing = {
+        "vulgard": "education",
+        "polarity": "housing",
+        "subjectivity": "housing",
+        "count": "education",
+        "covid": "social",
+        "climate": "education",
+        "finance": "social",
+        "housing": "education",
+        "sport": "social"
+    }
 
-    # TODO: Need to compute results from two bounding boxes together.
+
+    view_result = db.get_stats(views[index])
+    count_result = db.get_stats("count");
+   
+
     result = {
         "sydney": {
-            "aurin": aurin["sydney_1"] + aurin["sydney_2"],
-            "score": view_result["sydney_1"] + view_result["sydney_2"],
+            "aurin": aurin[data_pairing[views[index]]]["sydney_1"],
+            "score": round((view_result["sydney_1"] + view_result["sydney_2"]) / (count_result["sydney_1"] + count_result["sydney_2"]) * 100, 2),
             "label": "Sydney"
         },
         "melbourne": {
-            "aurin": aurin["melbourne_1"] + aurin["melbourne_2"],
-            "score": view_result["melbourne_1"] + view_result["melbourne_2"],
+            "aurin": aurin[data_pairing[views[index]]]["melbourne_1"],
+            "score": round((view_result["melbourne_1"] + view_result["melbourne_2"]) / (count_result["melbourne_1"] + count_result["melbourne_2"]) * 100, 2),
             "label": "Melbourne"
         },
         "data_name": views[index],
