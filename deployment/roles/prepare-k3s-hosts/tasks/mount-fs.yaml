@@ -1,9 +1,9 @@
 ---
-- name: Build the filesystem
+- name: Build the couchdb filesystem
   shell: mkfs.ext4 /dev/vdb
 
-- name: Make local directory
+- name: Make local couchdb directory
   shell: mkdir /mnt/couch
 
-- name: Mount the dir
+- name: Mount the couchdb dir
   shell: mount -t auto -v /dev/vdb /mnt/couch

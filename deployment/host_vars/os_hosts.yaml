@@ -20,12 +20,12 @@ security_groups:
     internal: true
     description: "Allows all traffic between nodes"
     remote_group: cluster
-  - name: admin interface
+  - name: services
     internal: false
-    description: "Security group for external access to admin interface"
+    description: "Security group for external access to admin interface, web app, and docker registry"
     protocol: tcp
     port_range_min: 30001
-    port_range_max: 30001
+    port_range_max: 30004
     remote_ip_prefix: 0.0.0.0/0
   - name: k3s api
     internal: false
@@ -34,28 +34,21 @@ security_groups:
     port_range_min: 6443
     port_range_max: 6443
     remote_ip_prefix: 0.0.0.0/0
-  - name: docker registry
-    internal: false
-    description: "Security group for the docker registry"
-    protocol: tcp
-    port_range_min: 30002
-    port_range_max: 30002
-    remote_ip_prefix: 0.0.0.0/0
 
 # Instance
 masters:
   - name: master-1
     volumes: ['couchdb-1']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api', 'docker registry']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
   - name: master-2
     volumes: ['couchdb-2']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api', 'docker registry']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
   - name: master-3
     volumes: ['couchdb-3']
-    security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api', 'docker registry']
+    security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
 init:
   volumes: ['registry']
-  security_groups: ['cluster', 'admin interface', 'ssh', 'http', 'k3s api', 'docker registry']
+  security_groups: ['cluster', 'ssh', 'http', 'k3s api', 'services']
 
 instance_image: NeCTAR Ubuntu 20.04 LTS (Focal) amd64
 instance_key_name: Area51

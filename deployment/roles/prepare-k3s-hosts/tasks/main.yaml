@@ -14,4 +14,4 @@
 
 - name: Mount docker registry volume
   import_tasks: mount-registry-volume.yaml
-  when: hostvars[inventory_hostname].openstack.name.find('init') == 1
+  when: hostvars[inventory_hostname].openstack.name.find('init') != -1
