@@ -2,7 +2,7 @@ FROM alpine
 
 EXPOSE 80
 
-ADD config/default.conf /etc/nginx/conf.d/default.conf
+ADD config/default.conf /etc/nginx/http.d/default.conf
 
 COPY . /var/www/localhost/htdocs
 
