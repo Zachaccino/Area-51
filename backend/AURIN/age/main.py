@@ -1,7 +1,14 @@
 import json
-def process(file):
-    #main lines to change for different json file, 1) method of reading lga_code, 2) different sturcture for result
-    #LGAS subject to change
+import sys
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+def main(file, key_col):
     MELBOURNE_LGAS = [25340, 21450, 21610, 22170, 22670, 23430, 20910, 22310, 24970, 25900, 26350, 23670,
                                    27450, 27350, 21110, 26980, 24410, 21890,
                                    20660, 24210, 25710, 27070, 24850, 25620, 24600, 25250, 23270, 24130, 25150, 27260,
@@ -19,27 +26,37 @@ def process(file):
         for lga in lgas:
             lga_to_name[lga] = name
     #result aggregate data from the same location and stores distribution of data
-    result = {"Melbourne":{},"Sydney":{}}
+    result = {"Melbourne":{"n":0},"Sydney":{"n":0}}
 
     with open(file) as f:
         data = json.load(f)
     for row in data['features']:
-        lga = int(row['properties']['lga_code_2016'])
+        lga = int(row['properties'][key_col])
         if lga not in lga_to_name:
             continue
         location = lga_to_name[lga]
         for key, value in row['properties'].items():
-            #properties include all attributes and lga_ID, including total make sure lga_ID is skipped
-            if "total" not in key:
+            #properties include all attributes excluding key_col
+            if key == key_col:
                 continue
             if key not in result[location]:
                 result[location][key] = 0
-            result[location][key] += int(value)
+            #numeric values are summed
+            if is_number(value):
+                result[location][key] += value
+        result[location]["n"] += 1
     for location in result:
+        n = result[location]["n"]
+        if n != 0:
+            for feature in result[location]:
+                if feature != "n":
+                    #calculate average of numeric values
+                    result[location][feature] = round(result[location][feature]/n, 2)
         print(result[location])
+
     with open('result-' + file,'w') as outfile:
-        json.dump(result,outfile)
+        json.dump(result, outfile)
     return
 
 if __name__ == "__main__":
-    process("education.json")
+   main(sys.argv[1], sys.argv[2])

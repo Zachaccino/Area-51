@@ -1,8 +1,9 @@
-Melb =  [144.593741856, -38.433859306, 145.512528832, -37.5112737225] = [LONG1, LAT1, LONG2, LAT2] 
-Syd = [150.520929, -34.118347, 151.343021, -33.578141] = [LONG1, LAT1, LONG2, LAT2] 
-
+Australia (country/au)
 
 PHIDU - Age Distribution - Broad Age Groups: Persons (LGA) 2017
+
+key_col = lga_code16
+
 LGA Code 2016
 LGA Name 2016
 Persons, 0-14 Years 2017 Erp Number
