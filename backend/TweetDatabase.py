@@ -39,6 +39,16 @@ class TweetDatabase:
       def _add(view_name, view_key):
         if view_name not in ddoc_tweets.list_views():
           ddoc_tweets.add_view(view_name, "function (doc) { emit(doc.city, " + view_key + "); }", "_sum")
+      def _add_subjectivity(view_name, view_key):
+        if view_name not in ddoc_tweets.list_views():
+          ddoc_tweets.add_view(view_name, "function(doc){if(" + view_key + ">0){emit(doc.city,doc.subjectivity);}}", "_sum")
+      def _add_polarity(view_name, view_key):
+        if view_name not in ddoc_tweets.list_views():
+          ddoc_tweets.add_view(view_name, "function(doc){if(" + view_key + ">0){emit(doc.city,doc.polarity);}}", "_sum")
+      def _add_counter(view_name, view_key):
+        if view_name not in ddoc_tweets.list_views():
+          ddoc_tweets.add_view(view_name, "function(doc){if(" + view_key + ">0){emit(doc.city,1);}}", "_sum")
+      
 
       _add("vulgard", "doc.vulgard_count")
       _add("polarity", "doc.polarity")
@@ -46,10 +56,30 @@ class TweetDatabase:
       _add("count", "doc.word_count")
 
       _add("covid", "doc.topic_scores.covid")
+      _add_subjectivity("covid_subjectivity", "doc.topic_scores.covid")
+      _add_polarity("covid_polarity", "doc.topic_scores.covid")
+      _add_counter("covid_counter", "doc.topic_scores.covid")
+
       _add("climate", "doc.topic_scores.climate")
+      _add_subjectivity("climate_subjectivity", "doc.topic_scores.climate")
+      _add_polarity("climate_polarity", "doc.topic_scores.climate")
+      _add_counter("climate_counter", "doc.topic_scores.climate")
+
       _add("finance", "doc.topic_scores.finance")
+      _add_subjectivity("finance_subjectivity", "doc.topic_scores.finance")
+      _add_polarity("finance_polarity", "doc.topic_scores.finance")
+      _add_counter("finance_counter", "doc.topic_scores.finance")
+
       _add("housing", "doc.topic_scores.housing")
+      _add_subjectivity("housing_subjectivity", "doc.topic_scores.housing")
+      _add_polarity("housing_polarity", "doc.topic_scores.housing")
+      _add_counter("housing_counter", "doc.topic_scores.housing")
+
       _add("sport", "doc.topic_scores.sport")
+      _add_subjectivity("sport_subjectivity", "doc.topic_scores.sport")
+      _add_polarity("sport_polarity", "doc.topic_scores.sport")
+      _add_counter("sport_counter", "doc.topic_scores.sport") 
+
 
     with DesignDocument(self.client[self.users_db_name], document_id="user") as ddoc_users:
       if "depth" not in ddoc_users.list_views():

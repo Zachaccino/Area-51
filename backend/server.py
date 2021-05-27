@@ -64,43 +64,73 @@ def data():
         return result
 
     index = int(index)
-    if not (index >= 0 and index < 9):
+    if not (index >= 0 and index < 15):
         return result
     
     views = [
         "vulgard",
         "polarity",
         "subjectivity",
-        "count",
+
         "covid",
+        "covid_subjectivity",
+        "covid_polarity",
+
         "climate",
+        "climate_subjectivity",
+        "climate_polarity",
+
         "finance",
+        "finance_subjectivity",
+        "finance_polarity",
+
         "housing",
-        "sport"
+        "housing_subjectivity",
+        "housing_polarity",
     ]
 
     descriptions = [
         "The amount of swear words comparing to the number of bachelor degree graduates.",
         "The polarity of tweets comparing to the median sales price of houses for the last 12 months.",
         "The subjectivity of tweets.",
-        "The word count of tweets comparing to the number of bachelor degree graduates.",
+
         "The covid (and related words) word count comparing to Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score.",
+        "Covid tweets' subjectivity comparing to the socio-economic disadvantage index score.",
+        "Covid tweets' polarity comparing to the socio-economic disadvantage index score.",
+
         "The climate (and related words) word count comparing to the number of bachelor degree graduates.",
+        "Climate tweets' subjectivity comparing to the the number of bachelor degree graduates.",
+        "Climate tweets' polarity comparing to the the number of bachelor degree graduates.",
+
         "The finance (and related words) word count comparing to Seifa Index Of Relative Socio-Economic Disadvantage 2016 Index Score.",
+        "Finance tweets' subjectivity comparing to the socio-economic disadvantage index score.",
+        "Finance tweets' polarity comparing to the socio-economic disadvantage index score.",
+
         "The housing (and related words) word count comparing to the number of bachelor degree graduates.",
-        "Not Used"
+        "Housing tweets' subjectivity comparing to the the number of bachelor degree graduates.",
+        "Housing tweets' polarity comparing to the the number of bachelor degree graduates."
     ]
 
     titles = [
         "Vulgard vs Education",
         "Polarity vs Housing",
-        "Subjectivty",
-        "Tweet Count vs Education",
+        "Subjectivity",
+
         "Covid vs Social Economics",
+        "Covid Subjectivity vs Social Economics",
+        "Covid Polarity vs Social Economics",
+
         "Climate vs Education",
+        "Climate Subjectivity vs Education",
+        "Climate Polarity vs Education",
+
         "Finance vs Social Economics",
+        "Finance Subjectivity vs Social Economics",
+        "Finance Polarity vs Social Economics",
+
         "Housing vs Education",
-        "Sports vs Social Economics"
+        "Housing Subjectivity vs Education",
+        "Housing Polarity vs Education",
     ]
 
     
@@ -139,34 +169,62 @@ def data():
         "polarity": "housing",
         "subjectivity": "none",
         "count": "education",
+
         "covid": "social",
+        "covid_subjectivity": "social",
+        "covid_polarity": "social",
+
         "climate": "education",
+        "climate_subjectivity": "education",
+        "climate_polarity": "education",
+
         "finance": "social",
+        "finance_subjectivity": "social",
+        "finance_polarity": "social",
+
         "housing": "education",
-        "sport": "social"
+        "housing_subjectivity": "education",
+        "housing_polarity": "education",
     }
 
 
     view_result = db.get_stats(views[index])
-    count_result = db.get_stats("count");
-    
-    compensation = 1
+    print(view_result)
 
-    if views[index]  == "subjectivity":
-        compensation = 4
+    counter_key = "count"
+
+    if "covid" in views[index]:
+        counter_key = "covid_counter"
+    elif "climate" in views[index]:
+        counter_key = "climate_counter"
+    elif "finance" in views[index]:
+        counter_key = "finance_counter"
+    elif "housing" in views[index]:
+        counter_key = "housing_counter"
+
+    count_result = db.get_stats(counter_key);
+    print(count_result)
     
-        
+
+    compensation = 100
+
+    if views[index]  == "subjectivity" \
+        or views[index] == "covid_subjectivity" \
+        or views[index] == "climate_subjectivity" \
+        or views[index] == "finance_subjectivity" \
+            or views[index] == "housing_subjectivity":
+        compensation = 1
    
 
     result = {
         "sydney": {
             "aurin": aurin[data_pairing[views[index]]]["sydney_1"],
-            "score": round((view_result["sydney_1"] + view_result["sydney_2"]) / (count_result["sydney_1"] + count_result["sydney_2"]) * 100 / compensation, 2),
+            "score": round((view_result["sydney_1"] + view_result["sydney_2"]) / (count_result["sydney_1"] + count_result["sydney_2"]) * compensation, 5),
             "label": "Sydney"
         },
         "melbourne": {
             "aurin": aurin[data_pairing[views[index]]]["melbourne_1"],
-            "score": round((view_result["melbourne_1"] + view_result["melbourne_2"]) / (count_result["melbourne_1"] + count_result["melbourne_2"]) * 100 / compensation, 2),
+            "score": round((view_result["melbourne_1"] + view_result["melbourne_2"]) / (count_result["melbourne_1"] + count_result["melbourne_2"]) * compensation, 5),
             "label": "Melbourne"
         },
         "data_name": views[index],

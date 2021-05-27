@@ -317,8 +317,8 @@ export class MapContainer extends Component {
 
   nextScenario = () => {
     let index = this.state.scenarioIndex + 1 
-    if (index > 7){
-      index = 7
+    if (index > 15){
+      index = 15
     } else if (index < 0) {
       index = 0
     }
@@ -331,8 +331,8 @@ export class MapContainer extends Component {
 
   previousScenario = () => {
     let index = this.state.scenarioIndex - 1 
-    if (index > 7){
-      index = 7
+    if (index > 15){
+      index = 15
     } else if (index < 0) {
       index = 0
     }
