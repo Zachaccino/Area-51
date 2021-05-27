@@ -212,7 +212,16 @@ def data():
         or views[index] == "covid_subjectivity" \
         or views[index] == "climate_subjectivity" \
         or views[index] == "finance_subjectivity" \
-            or views[index] == "housing_subjectivity":
+        or views[index] == "housing_subjectivity" \
+        or views[index] == "polarity" \
+        or views[index] == "covid_polarity" \
+        or views[index] == "climate_polarity" \
+        or views[index] == "finance_polarity" \
+        or views[index] == "housing_polarity" \
+        or views[index] == "covid" \
+        or views[index] == "climate" \
+        or views[index] == "finance" \
+            or views[index] == "housing":
         compensation = 1
    
 
